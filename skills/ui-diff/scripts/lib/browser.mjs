@@ -11,7 +11,9 @@ import sharpLib from './sharp.mjs';
 function resolveAgentBrowser() {
   if (process.platform !== 'win32') return ['agent-browser', []];
   const shim = execFileSync('where', ['agent-browser.cmd'], { encoding: 'utf8' }).split(/\r?\n/)[0].trim();
-  const rel = fs.readFileSync(shim, 'utf8').match(/"%~?dp0%?\\([^"]+\.(?:js|exe))"/i)?.[1];
+  // Shims also quote an optional bundled "%~dp0\node.exe"; skip it and prefer the .js entry.
+  const paths = [...fs.readFileSync(shim, 'utf8').matchAll(/"%~?dp0%?\\([^"]+\.(?:js|exe))"/gi)].map((m) => m[1]);
+  const rel = paths.find((p) => /\.js$/i.test(p)) ?? paths.find((p) => !/(^|\\)node\.exe$/i.test(p));
   if (!rel) throw new Error(`cannot find the agent-browser entry point in ${shim}`);
   const target = path.join(path.dirname(shim), rel);
   return /\.exe$/i.test(target) ? [target, []] : [process.execPath, [target]];
