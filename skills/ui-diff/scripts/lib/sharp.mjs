@@ -16,7 +16,7 @@ function load() {
   for (const t of tries) {
     try { return t(); } catch { /* next */ }
   }
-  throw new Error(`ui-diff: sharp not found. Install it once with:\n  npm install --prefix "${scriptsDir}"`);
+  throw new Error(`ui-diff: sharp not found. Install it once with:\n  cd "${scriptsDir}" && npm install`);
 }
 
 export default load();

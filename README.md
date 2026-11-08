@@ -22,7 +22,7 @@ cp -r agent-skills/skills/ui-diff <project>/.claude/skills/
 
 Other agents read the same folder from their own skills directory (for example
 `~/.agents/skills/` or `~/.codex/skills/`). Then follow the skill's **Setup** section once;
-`ui-diff` needs `agent-browser` and a one-time `npm install` in its `scripts/` folder.
+`ui-diff` needs `agent-browser` and a one-time `npm install` run inside its `scripts/` folder.
 
 ## Adding a skill
 
