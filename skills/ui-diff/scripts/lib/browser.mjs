@@ -4,14 +4,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sharpLib from './sharp.mjs';
 
-// On Windows `agent-browser` is a .CMD shim that execFile can't spawn without a shell, and a
-// shell would mangle the JavaScript we pass to `eval`. Call the shim's target script with node.
+// On Windows `agent-browser` is a .cmd shim that execFile can't spawn without a shell, and a
+// shell would mangle the JavaScript we pass to `eval`. Read the shim and call its target
+// directly. pnpm shims write "%~dp0\...", npm shims "%dp0%\..."; the target is a .js entry
+// (run with node) or a native .exe.
 function resolveAgentBrowser() {
   if (process.platform !== 'win32') return ['agent-browser', []];
   const shim = execFileSync('where', ['agent-browser.cmd'], { encoding: 'utf8' }).split(/\r?\n/)[0].trim();
-  const js = fs.readFileSync(shim, 'utf8').match(/"%~dp0\\([^"]+\.js)"/)?.[1];
-  if (!js) throw new Error(`cannot find agent-browser.js in ${shim}`);
-  return [process.execPath, [path.join(path.dirname(shim), js)]];
+  const rel = fs.readFileSync(shim, 'utf8').match(/"%~?dp0%?\\([^"]+\.(?:js|exe))"/i)?.[1];
+  if (!rel) throw new Error(`cannot find the agent-browser entry point in ${shim}`);
+  const target = path.join(path.dirname(shim), rel);
+  return /\.exe$/i.test(target) ? [target, []] : [process.execPath, [target]];
 }
 
 export function makeBrowser(session) {
