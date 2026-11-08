@@ -1,0 +1,10 @@
+{
+  "name": "ui-diff-skill",
+  "private": true,
+  "type": "module",
+  "description": "Token-cheap before/after UI comparison for coding agents",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "sharp": "0.35.5"
+  }
+}
