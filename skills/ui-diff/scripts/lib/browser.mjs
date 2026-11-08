@@ -1,30 +1,25 @@
 // Capture: drive agent-browser, stabilise the page, take the screenshot and the element manifest.
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
-import path from 'node:path';
 import sharpLib from './sharp.mjs';
 
-// On Windows `agent-browser` is a .cmd shim that execFile can't spawn without a shell, and a
-// shell would mangle the JavaScript we pass to `eval`. Read the shim and call its target
-// directly. pnpm shims write "%~dp0\...", npm shims "%dp0%\..."; the target is a .js entry
-// (run with node) or a native .exe.
-function resolveAgentBrowser() {
-  if (process.platform !== 'win32') return ['agent-browser', []];
-  const shim = execFileSync('where', ['agent-browser.cmd'], { encoding: 'utf8' }).split(/\r?\n/)[0].trim();
-  // Shims also quote an optional bundled "%~dp0\node.exe"; skip it and prefer the .js entry.
-  const paths = [...fs.readFileSync(shim, 'utf8').matchAll(/"%~?dp0%?\\([^"]+\.(?:js|exe))"/gi)].map((m) => m[1]);
-  const rel = paths.find((p) => /\.js$/i.test(p)) ?? paths.find((p) => !/(^|\\)node\.exe$/i.test(p));
-  if (!rel) throw new Error(`cannot find the agent-browser entry point in ${shim}`);
-  const target = path.join(path.dirname(shim), rel);
-  return /\.exe$/i.test(target) ? [target, []] : [process.execPath, [target]];
-}
+// JavaScript always goes to agent-browser through stdin (`eval --stdin`), so the command line
+// only carries simple arguments. That lets Windows run it through the shell, which is how
+// npm, pnpm and bun .cmd shims are meant to be launched; each argument is quoted for cmd.
+const WIN = process.platform === 'win32';
+const cmdQuote = (a) => (/^[\w\-.:/\\@#=,+]+$/.test(a) ? a : `"${String(a).replace(/"/g, '""')}"`);
 
 export function makeBrowser(session) {
-  const [bin, pre] = resolveAgentBrowser();
-  const ab = (...args) => execFileSync(bin, [...pre, '--session', session, ...args],
-    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 256 << 20 });
+  const run = (args, input) => {
+    const all = ['--session', session, ...args];
+    const opts = { encoding: 'utf8', input, stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'], maxBuffer: 256 << 20 };
+    return WIN
+      ? execFileSync(['agent-browser', ...all.map(cmdQuote)].join(' '), { ...opts, shell: true })
+      : execFileSync('agent-browser', all, opts);
+  };
+  const ab = (...args) => run(args);
   // agent-browser prints the eval result JSON-encoded; returning a JSON string keeps types intact.
-  const evalJson = (expr) => JSON.parse(JSON.parse(ab('eval', `(async () => JSON.stringify(await (${expr})))()`).trim()));
+  const evalJson = (expr) => JSON.parse(JSON.parse(run(['eval', '--stdin'], `(async () => JSON.stringify(await (${expr})))()`).trim()));
   return { ab, evalJson };
 }
 
