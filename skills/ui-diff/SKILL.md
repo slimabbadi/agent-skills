@@ -12,7 +12,7 @@ Capture a page **before** you edit it, capture it again **after**, and read what
 ## Setup (once per machine)
 
 1. Put `agent-browser` on PATH (`npm i -g agent-browser`, then `agent-browser install` for Chromium; on Linux `agent-browser install --with-deps`).
-2. Install the image library: `npm install --prefix <this skill's directory>/scripts`.
+2. Install the image library: run `npm install` inside `<this skill's directory>/scripts`.
 3. Optional proof that the machine is ready: `node <this skill's directory>/scripts/selftest/selftest.mjs`. It exits 0 when all scenarios pass.
 
 ## Steps

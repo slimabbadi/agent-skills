@@ -29,6 +29,7 @@ jobs:
           npm install -g agent-browser@0.40.0
           if [ "$RUNNER_OS" = "Linux" ]; then agent-browser install --with-deps; else agent-browser install; fi
       - name: Install skill dependencies
-        run: npm install --prefix skills/${{ matrix.skill }}/scripts --no-audit --no-fund
+        working-directory: skills/${{ matrix.skill }}/scripts
+        run: npm install --no-audit --no-fund
       - name: Self-test
         run: node skills/${{ matrix.skill }}/scripts/selftest/selftest.mjs
