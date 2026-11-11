@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KIT_NAME design kit</title>
+<!-- FILL: paths from this page to the kit's token and component files -->
+<link rel="stylesheet" href="TOKENS_PATH">
+<link rel="stylesheet" href="KIT_PATH">
+<style>
+  /* FILL: map the page chrome to the kit's roles. These eight lines are the only page styling you edit. */
+  :root {
+    --sp-bg: var(--x-bg);                 /* page ground */
+    --sp-panel: var(--x-surface-solid);   /* swatch cards, rows */
+    --sp-stage: var(--x-bg);              /* ground under component demos: the product's real backdrop */
+    --sp-line: var(--x-line);
+    --sp-text: var(--x-text);
+    --sp-text-2: var(--x-text-2);
+    --sp-text-3: var(--x-text-3);
+    --sp-font: var(--x-font-text);        /* body */
+    --sp-font-display: var(--x-font-display); /* section headings */
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark light; }
+  body { margin: 0; background: var(--sp-bg); color: var(--sp-text); font: 400 14px/1.6 var(--sp-font); }
+  a { color: var(--sp-text); text-underline-offset: 3px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 0 16px 96px; }
+  main h2 { margin: 88px 0 8px; font: 500 clamp(26px, 4vw, 38px)/1.1 var(--sp-font-display); }
+  main h3 { margin: 32px 0 10px; font-size: 12px; font-weight: 500; color: var(--sp-text-2); }
+  main p { max-width: 68ch; margin: 8px 0; color: var(--sp-text-2); }
+  code { font-family: ui-monospace, monospace; color: var(--sp-text); background: var(--sp-panel); padding: 1px 6px; border-radius: 4px; font-size: 12.5px; }
+  pre { margin: 12px 0; padding: 16px; background: var(--sp-panel); border: 1px solid var(--sp-line); border-radius: 12px; overflow: auto; font-size: 12.5px; color: var(--sp-text-2); }
+
+  /* Hero: the reference's world, with the kit's signature module in it. */
+  .hero { padding: 56px 16px 72px; }
+  .hero-in { max-width: 1180px; margin: 0 auto; }
+  .wall { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); margin-top: 40px; }
+
+  /* Component demos */
+  .stage { padding: 28px; background: var(--sp-stage); border: 1px solid var(--sp-line); border-radius: 16px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .states { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .states figure, .stage figure { margin: 0; display: grid; justify-items: center; gap: 8px; }
+  figcaption { font-size: 11px; color: var(--sp-text-3); }
+
+  /* Provenance table */
+  .tbl { overflow-x: auto; margin-top: 12px; border: 1px solid var(--sp-line); border-radius: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 16px; border-top: 1px solid var(--sp-line); }
+  thead th { border-top: 0; font-weight: 500; color: var(--sp-text-2); font-size: 12px; }
+  td:nth-child(4) { white-space: nowrap; color: var(--sp-text-3); }
+
+  /* FILL: page-only styles for the hero backdrop or demos, if the reference needs them. Keep component styling in the kit file. */
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-in">
+    <!-- FILL (tracer step): the product's title in the kit's title style, one line of what this kit is,
+         and the signature module(s) inside .wall, built with the kit's own classes and real product data. -->
+  </div>
+</header>
+
+<main>
+<!-- tokens:start -->
+<!-- tokens:end -->
+
+  <h2 id="components">Components</h2>
+  <p>Every state is shown. Hover and pressed are forced with inline styles here so they are visible without a pointer.</p>
+  <!-- FILL: one block per component:
+  <h3>Name</h3>
+  <div class="stage">
+    real usage in a module, then
+    <div class="states"><figure>…<figcaption>default</figcaption></figure> … hover, active/on, focus, disabled</div>
+  </div>
+  -->
+
+  <h2 id="provenance">What came from the reference</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Element</th><th>In the reference</th><th>In this kit</th><th>Source</th></tr></thead>
+    <tbody>
+      <!-- FILL: one row per inventory element. Source: sampled · inferred · inferred, substitute · derived · dropped (say why). -->
+    </tbody>
+  </table></div>
+
+  <h2 id="use">Use it</h2>
+  <!-- FILL: the import lines for the project's stack, and markup for any component that needs structure or a JS knob. -->
+</main>
+
+<!-- FILL: only the script the kit's components need on this page (e.g. syncing a slider's --p). -->
+</body>
+</html>

@@ -7,6 +7,7 @@ any scripts it runs.
 | Skill | What it does |
 |---|---|
 | [`ui-diff`](skills/ui-diff/SKILL.md) | Before/after check of a web UI change at minimal image-token cost: a text report of what changed (styles, text, layout, unexplained pixels) and at most one small cropped image. |
+| [`image-to-design-v2`](skills/image-to-design-v2/SKILL.md) | Turns a reference image (screenshot, mockup, moodboard) into the project's design kit: tokens, component CSS and a specimen page, with every value tagged sampled, inferred or derived. Ships `kit.py` (palette, accent and contrast measuring, token rendering, kit check; needs Python and Pillow) and `verify.js` (in-browser contrast, overflow and target-size check via `agent-browser`). User-invoked only. |
 | [`web-perf-guard`](skills/web-perf-guard/SKILL.md) | Loading-time and runtime-cost guard for web frontends, strongest on WebGL / three.js / react-three-fiber and streamed 3D data. Build mode applies fast defaults while coding; audit mode measures a production build and walks a 27-rule catalogue. Ships a load probe (`measure-load.mjs`) that needs `playwright-core` and system Chrome. |
 
 ## Install a skill
