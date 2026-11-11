@@ -7,6 +7,7 @@ any scripts it runs.
 | Skill | What it does |
 |---|---|
 | [`ui-diff`](skills/ui-diff/SKILL.md) | Before/after check of a web UI change at minimal image-token cost: a text report of what changed (styles, text, layout, unexplained pixels) and at most one small cropped image. |
+| [`web-perf-guard`](skills/web-perf-guard/SKILL.md) | Loading-time and runtime-cost guard for web frontends, strongest on WebGL / three.js / react-three-fiber and streamed 3D data. Build mode applies fast defaults while coding; audit mode measures a production build and walks a 27-rule catalogue. Ships a load probe (`measure-load.mjs`) that needs `playwright-core` and system Chrome. |
 
 ## Install a skill
 
